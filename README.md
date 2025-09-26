@@ -1,17 +1,12 @@
-# Minecraft Mod Transl## exe 컴파일
-PyInstaller로 exe 파일 생성:
-```
-pip install pyinstaller
-pyinstaller --onefile --windowed main.py
-```
-생성된 exe 파일은 `dist` 폴더에 있음.
-
-## exe 사용법
-- `dist/main.exe`를 실행하여 프로그램 시작
-- Python 환경이 필요 없음
-- 모든 의존성이 exe에 포함됨th Google Gemini AI
+# Minecraft Mod Translator with Google Gemini AI
 
 Minecraft Forge 모드의 언어 파일을 Google Gemini AI로 번역.
+
+## GitHub에서 클론
+```bash
+git clone https://github.com/jyc8369/minecraft-Mod-Translator-Gemini.git
+cd minecraft-Mod-Translator-Gemini
+```
 
 ## Requirements
 - Python 3.8+
@@ -37,4 +32,9 @@ PyInstaller로 exe 파일 생성:
 pip install pyinstaller
 pyinstaller --onefile --windowed main.py
 ```
-생성된 exe 파일은 dist 폴더에 있음.
+생성된 exe 파일은 `dist` 폴더에 있음.
+
+## exe 사용법
+- `dist/main.exe`를 실행하여 프로그램 시작
+- Python 환경이 필요 없음
+- 모든 의존성이 exe에 포함됨
