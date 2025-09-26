@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.log
+temp/
+translated/
+build/
+dist/
+config.json
