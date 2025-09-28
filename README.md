@@ -26,7 +26,13 @@ cd minecraft-Mod-Translator-Gemini
 - 실시간 진행 바 및 로그 표시
 - exe 컴파일 지원 (PyInstaller 사용)
 
-## exe 컴파일
+## exe 다운로드
+GitHub Releases에서 압축된 exe 파일을 다운로드할 수 있습니다:
+- 파일명: `Minecraft_Mod_Translator_v1.0.zip`
+- 크기: 약 105MB
+- 압축 해제 후 `main.exe` 실행
+
+## exe 컴파일 (개발자용)
 PyInstaller로 exe 파일 생성:
 ```
 pip install pyinstaller
@@ -35,6 +41,6 @@ pyinstaller --onefile --windowed main.py
 생성된 exe 파일은 `dist` 폴더에 있음.
 
 ## exe 사용법
-- `dist/main.exe`를 실행하여 프로그램 시작
+- `main.exe`를 실행하여 프로그램 시작
 - Python 환경이 필요 없음
 - 모든 의존성이 exe에 포함됨
