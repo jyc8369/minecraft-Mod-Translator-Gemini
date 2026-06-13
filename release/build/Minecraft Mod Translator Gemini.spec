@@ -6,7 +6,7 @@ from pathlib import Path
 from PyInstaller.utils.hooks import collect_submodules
 
 
-project_root = Path.cwd()
+project_root = Path.cwd().resolve().parents[1]
 hiddenimports = []
 hiddenimports += collect_submodules("customtkinter")
 hiddenimports += collect_submodules("google")
