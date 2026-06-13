@@ -222,49 +222,7 @@ jobs:
           python3 -m PyInstaller --noconfirm --clean "Minecraft Mod Translator Gemini.spec"
 
       - name: Package .rpm
-        run: |
-          version="${GITHUB_REF_NAME#v}"
-          out_dir="../artifacts/linux/fedora"
-          rpmdir="../rpmbuild"
-          rm -rf "$out_dir" "$rpmdir"
-          mkdir -p "$rpmdir"/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS} "$out_dir"
-          tar -czf "$rpmdir/SOURCES/MMTG-${version}.tar.gz" -C dist MMTG
-          cat > "$rpmdir/SPECS/mmtg.spec" <<EOF
-          Name: mmtg
-          Version: ${version}
-          Release: 1%{?dist}
-          Summary: Minecraft Mod Translator Gemini
-          License: MIT
-          URL: https://github.com/${{ github.repository }}
-          BuildArch: x86_64
-          Source0: MMTG-${version}.tar.gz
-          Provides: mmtg
-
-          %description
-          Minecraft Mod Translator Gemini
-
-          %prep
-          %setup -q -n MMTG
-
-          %build
-
-          %install
-          rm -rf %{buildroot}
-          mkdir -p %{buildroot}/opt/MMTG
-          cp -a * %{buildroot}/opt/MMTG/
-          mkdir -p %{buildroot}/usr/bin
-          cat > %{buildroot}/usr/bin/mmtg <<'SH'
-          #!/bin/sh
-          exec /opt/MMTG/MMTG "$@"
-          SH
-          chmod 755 %{buildroot}/usr/bin/mmtg
-
-          %files
-          /opt/MMTG
-          /usr/bin/mmtg
-          EOF
-          rpmbuild --define "_topdir $rpmdir" -bb "$rpmdir/SPECS/mmtg.spec"
-          cp "$rpmdir/RPMS/x86_64/"*.rpm "$out_dir/MMTG-fedora.rpm"
+        run: sh "$GITHUB_WORKSPACE/release/build/package_fedora.sh" "$GITHUB_REF_NAME"
 
       - name: Upload Fedora artifact
         uses: actions/upload-artifact@v4
@@ -276,55 +234,32 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: archlinux:base-devel
-    defaults:
-      run:
-        working-directory: release/build
     steps:
-      - name: Install dependencies
-        run: |
-          pacman -Syu --noconfirm python python-pip git
-          pip install -r ../../requirements.txt
-          pip install pyinstaller
-
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build app
+      - name: Install dependencies
+        working-directory: .
         run: |
-          python3 -m PyInstaller --noconfirm --clean "Minecraft Mod Translator Gemini.spec"
+          pacman -Syu --noconfirm python python-pip git
+          pip install -r "$GITHUB_WORKSPACE/requirements.txt"
+          pip install pyinstaller
+
+      - name: Prepare build user
+        working-directory: .
+        run: |
+          useradd -m builder
+          chown -R builder:builder "$GITHUB_WORKSPACE"
+
+      - name: Build app
+        working-directory: .
+        run: |
+          su builder -c "cd '$GITHUB_WORKSPACE/release/build' && python3 -m PyInstaller --noconfirm --clean 'Minecraft Mod Translator Gemini.spec'"
 
       - name: Package Arch package
+        working-directory: .
         run: |
-          version="${GITHUB_REF_NAME#v}"
-          out_dir="../artifacts/linux/arch"
-          srcdir="../archpkg"
-          rm -rf "$out_dir" "$srcdir"
-          mkdir -p "$srcdir" "$out_dir"
-          tar -czf "$srcdir/MMTG-${version}.tar.gz" -C dist MMTG
-          cat > "$srcdir/PKGBUILD" <<EOF
-          pkgname=mmtg
-          pkgver=${version}
-          pkgrel=1
-          pkgdesc="Minecraft Mod Translator Gemini"
-          arch=('x86_64')
-          license=('MIT')
-          depends=('python')
-          source=("MMTG-${version}.tar.gz")
-          sha256sums=('SKIP')
-          package() {
-            install -dm755 "\${pkgdir}/opt/MMTG"
-            cp -a "\${srcdir}/MMTG" "\${pkgdir}/opt/MMTG/"
-            install -dm755 "\${pkgdir}/usr/bin"
-            cat > "\${pkgdir}/usr/bin/mmtg" <<'SH'
-            #!/bin/sh
-            exec /opt/MMTG/MMTG "$@"
-            SH
-            chmod 755 "\${pkgdir}/usr/bin/mmtg"
-          }
-          EOF
-          cd "$srcdir"
-          makepkg --noconfirm --syncdeps --cleanbuild
-          cp *.pkg.tar.zst "$out_dir/MMTG-arch.pkg.tar.zst"
+          su builder -c "sh '$GITHUB_WORKSPACE/release/build/package_arch.sh' '$GITHUB_REF_NAME'"
 
       - name: Upload Arch artifact
         uses: actions/upload-artifact@v4

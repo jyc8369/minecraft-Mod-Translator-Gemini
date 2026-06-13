@@ -56,6 +56,7 @@ Notes:
 - Arch: `.pkg.tar.zst`
 
 Linux jobs are split per distribution in the release workflow.
+Fedora and Arch packaging scripts live under `release/build/`.
 
 ## Notes
 
