@@ -49,5 +49,5 @@ EOF
     echo "built package not found in $PKGDIR" >&2
     exit 1
   fi
-  install -Dm644 "$pkgfile" "$OUT_DIR/MMTG-arch.pkg.tar.zst"
+  install -Dm644 "$pkgfile" "$OUT_DIR/MMTG-${VERSION}-arch.pkg.tar.zst"
 )

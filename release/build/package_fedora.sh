@@ -67,4 +67,4 @@ if [ -z "$rpmfile" ]; then
   echo "built rpm not found in $RPMDIR/RPMS" >&2
   exit 1
 fi
-install -Dm644 "$rpmfile" "$OUT_DIR/MMTG-fedora.rpm"
+install -Dm644 "$rpmfile" "$OUT_DIR/MMTG-${VERSION}-fedora.rpm"

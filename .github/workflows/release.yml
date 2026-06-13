@@ -22,7 +22,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: "pip"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~\AppData\Local\pip\Cache
+          key: pip-${{ runner.os }}-py312-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-py312-
 
       - name: Install dependencies
         run: |
@@ -36,16 +45,17 @@ jobs:
       - name: Zip Windows build
         shell: pwsh
         run: |
+          $version = "${env:GITHUB_REF_NAME}" -replace '^v', ''
           $outDir = "../artifacts/windows"
           if (Test-Path $outDir) { Remove-Item -Recurse -Force $outDir }
           New-Item -ItemType Directory -Path $outDir -Force | Out-Null
-          Compress-Archive -Path "dist\MMTG\*" -DestinationPath "$outDir\MMTG-windows.zip"
+          Compress-Archive -Path "dist\MMTG\*" -DestinationPath "$outDir\MMTG-$version-windows.zip"
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-release
-          path: release/artifacts/windows/MMTG-windows.zip
+          path: release/artifacts/windows/MMTG-*-windows.zip
 
   build-macos-arm64:
     runs-on: macos-26
@@ -61,7 +71,14 @@ jobs:
         with:
           python-version: "3.12"
           architecture: arm64
-          cache: "pip"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-arm64-py312-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-arm64-py312-
 
       - name: Verify Python architecture
         run: |
@@ -83,16 +100,17 @@ jobs:
 
       - name: Zip macOS app
         run: |
+          version="${GITHUB_REF_NAME#v}"
           out_dir="../artifacts/macos"
           rm -rf "$out_dir"
           mkdir -p "$out_dir"
-          ditto -c -k --sequesterRsrc --keepParent "dist/MMTG.app" "$out_dir/MMTG-macos-arm64.zip"
+          ditto -c -k --sequesterRsrc --keepParent "dist/MMTG.app" "$out_dir/MMTG-${version}-macos-arm64.zip"
 
       - name: Upload macOS artifact
         uses: actions/upload-artifact@v4
         with:
           name: macos-arm64-release
-          path: release/artifacts/macos/MMTG-macos-arm64.zip
+          path: release/artifacts/macos/MMTG-*-macos-arm64.zip
 
   build-macos-x86_64:
     runs-on: macos-15-intel
@@ -108,7 +126,14 @@ jobs:
         with:
           python-version: "3.12"
           architecture: x64
-          cache: "pip"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-x64-py312-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-x64-py312-
 
       - name: Verify Python architecture
         run: |
@@ -130,22 +155,25 @@ jobs:
 
       - name: Zip macOS app
         run: |
+          version="${GITHUB_REF_NAME#v}"
           out_dir="../artifacts/macos"
           rm -rf "$out_dir"
           mkdir -p "$out_dir"
-          ditto -c -k --sequesterRsrc --keepParent "dist/MMTG.app" "$out_dir/MMTG-macos-x86_64.zip"
+          ditto -c -k --sequesterRsrc --keepParent "dist/MMTG.app" "$out_dir/MMTG-${version}-macos-x86_64.zip"
 
       - name: Upload macOS artifact
         uses: actions/upload-artifact@v4
         with:
           name: macos-x86_64-release
-          path: release/artifacts/macos/MMTG-macos-x86_64.zip
+          path: release/artifacts/macos/MMTG-*-macos-x86_64.zip
 
   build-linux-ubuntu:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: release/build
+    env:
+      RELEASE_VERSION: ${{ github.ref_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -154,7 +182,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: "pip"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-py312-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-py312-
 
       - name: Install build tools
         run: |
@@ -167,7 +202,7 @@ jobs:
 
       - name: Package .deb
         run: |
-          version="${GITHUB_REF_NAME#v}"
+          version="${RELEASE_VERSION#v}"
           out_dir="../artifacts/linux/ubuntu"
           pkgroot="../pkgroot/ubuntu"
           rm -rf "$out_dir" "$pkgroot"
@@ -188,19 +223,21 @@ jobs:
           Depends: python3
           Description: Minecraft Mod Translator Gemini
           EOF
-          dpkg-deb --build "$pkgroot" "$out_dir/MMTG-ubuntu.deb"
+          dpkg-deb --build "$pkgroot" "$out_dir/MMTG-${version}-ubuntu.deb"
 
       - name: Upload Ubuntu artifact
         uses: actions/upload-artifact@v4
         with:
           name: linux-ubuntu-release
-          path: release/artifacts/linux/ubuntu/MMTG-ubuntu.deb
+          path: release/artifacts/linux/ubuntu/MMTG-*-ubuntu.deb
 
   build-linux-debian:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: release/build
+    env:
+      RELEASE_VERSION: ${{ github.ref_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -209,7 +246,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: "pip"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-py312-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-py312-
 
       - name: Install build tools
         run: |
@@ -222,7 +266,7 @@ jobs:
 
       - name: Package .deb
         run: |
-          version="${GITHUB_REF_NAME#v}"
+          version="${RELEASE_VERSION#v}"
           out_dir="../artifacts/linux/debian"
           pkgroot="../pkgroot/debian"
           rm -rf "$out_dir" "$pkgroot"
@@ -243,19 +287,21 @@ jobs:
           Depends: python3
           Description: Minecraft Mod Translator Gemini
           EOF
-          dpkg-deb --build "$pkgroot" "$out_dir/MMTG-debian.deb"
+          dpkg-deb --build "$pkgroot" "$out_dir/MMTG-${version}-debian.deb"
 
       - name: Upload Debian artifact
         uses: actions/upload-artifact@v4
         with:
           name: linux-debian-release
-          path: release/artifacts/linux/debian/MMTG-debian.deb
+          path: release/artifacts/linux/debian/MMTG-*-debian.deb
 
   build-linux-fedora:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: release/build
+    env:
+      RELEASE_VERSION: ${{ github.ref_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -264,7 +310,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: "pip"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-py312-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-py312-
 
       - name: Install build tools
         run: |
@@ -284,12 +337,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-fedora-release
-          path: release/artifacts/linux/fedora/MMTG-fedora.rpm
+          path: release/artifacts/linux/fedora/MMTG-*-fedora.rpm
 
   build-linux-arch:
     runs-on: ubuntu-latest
     container:
       image: archlinux:base-devel
+    env:
+      RELEASE_VERSION: ${{ github.ref_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -303,6 +358,16 @@ jobs:
           python -m venv "$GITHUB_WORKSPACE/.venv-arch"
           "$GITHUB_WORKSPACE/.venv-arch/bin/pip" install -r "$GITHUB_WORKSPACE/requirements.txt"
           "$GITHUB_WORKSPACE/.venv-arch/bin/pip" install pyinstaller
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: |
+            /github/home/.cache/pip
+            ${{ github.workspace }}/.venv-arch
+          key: pip-${{ runner.os }}-arch-py312-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-arch-py312-
 
       - name: Prepare build user
         working-directory: .
@@ -318,13 +383,13 @@ jobs:
       - name: Package Arch package
         working-directory: .
         run: |
-          su builder -c "sh '$GITHUB_WORKSPACE/release/build/package_arch.sh' '$GITHUB_REF_NAME'"
+          su builder -c "sh '$GITHUB_WORKSPACE/release/build/package_arch.sh' '$RELEASE_VERSION'"
 
       - name: Upload Arch artifact
         uses: actions/upload-artifact@v4
         with:
           name: linux-arch-release
-          path: release/artifacts/linux/arch/MMTG-arch.pkg.tar.zst
+          path: release/artifacts/linux/arch/MMTG-*-arch.pkg.tar.zst
 
   publish-release:
     runs-on: ubuntu-latest
