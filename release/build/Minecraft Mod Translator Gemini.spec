@@ -37,20 +37,20 @@ exe = EXE(
     target_arch="universal2",
 )
 
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name="MMTG",
+)
+
 if sys.platform == "darwin":
     app = BUNDLE(
-        exe,
+        coll,
         name="MMTG.app",
         icon=None,
         bundle_identifier=None,
-    )
-else:
-    coll = COLLECT(
-        exe,
-        a.binaries,
-        a.datas,
-        strip=False,
-        upx=True,
-        upx_exclude=[],
-        name="MMTG",
     )
