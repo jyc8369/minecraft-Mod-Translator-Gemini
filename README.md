@@ -1,39 +1,66 @@
-# Minecraft Mod Translator Gemini ( MMTG )
+# Minecraft Mod Translator Gemini (MMTG) - User Guide (No Build Required)
 
-Minecraft 모드 JAR 안의 `lang/*.json` 파일을 찾아 Gemini로 번역하고, 다시 JAR로 패키징하는 도구입니다.
+## 1. 다운로드
 
-## Features
+GitHub Releases에서 운영체제에 맞는 파일을 다운로드합니다.
 
-- JAR 파일 또는 폴더 선택
-- 입력 언어 / 출력 언어 선택
-- 언어 파일 스캔
-- 번역 진행률 표시
-- 모드별 상태 표시
-- 로그 창 분리 표시
-- `config.json` 자동 생성
-- UI 언어 전환: `ko`, `en`
+- Windows: `~windows.zip`
+- macOS: `~macos.zip`
+- Linux:
+  - Ubuntu `~ubuntu.deb`
+  - Debian: `~debian.deb`
+  - Fedora: `~fedora.rpm`
+  - Arch: `arch.pkg.tar.zst`
 
-## Requirements
+## 2. 설치 및 실행
 
-- Python 3.12+
-- `customtkinter`
-- `google-genai`
+### Windows
+1. 다운로드한 파일 압축 해제
+2. `MMTG.exe` 실행
 
-## Install
+보안 경고가 뜨면 "추가 정보 → 실행" 선택
+
+### macOS
+1. 다운로드한 파일 압축 해제
+2. `.app` 파일을 Applications 폴더로 이동
+3. 실행
+4. 실행이 차단될 경우:
+   - 시스템 설정 → 보안 및 개인정보 보호 → 허용
+
+### Linux (Ubuntu / Debian / Fedora / Arch)
+
+#### Debian / Ubuntu
+```bash
+sudo dpkg -i mmtg.deb
+sudo apt-get install -f
+````
+
+#### Fedora
 
 ```bash
-pip install -r requirements.txt
+sudo dnf install mmtg.rpm
 ```
 
-## Run
+#### Arch
 
 ```bash
-python main.py
+sudo pacman -U mmtg.pkg.tar.zst
 ```
 
-## Configuration
+설치 후 실행:
 
-프로그램은 실행 시 `config.json`을 사용합니다.
+```bash
+mmtg
+```
+
+## 3. API 설정 (필수)
+
+처음 실행하면 `config.json` 파일이 자동 생성됩니다.
+
+파일 위치:
+
+* Windows: 프로그램 폴더 내부
+* Linux / macOS: 실행 폴더 또는 사용자 홈 기준
 
 예시:
 
@@ -46,107 +73,53 @@ python main.py
 }
 ```
 
-- `gemini_api_key`: Gemini API 키
-- `window_width`, `window_height`: 창 크기 저장값
-- `ui_language`: `ko` 또는 `en`
+### 설정 방법
 
-`config.json`이 없으면 기본 파일이 자동 생성됩니다.
+1. Google Gemini API Key 발급
+2. `config.json` 열기
+3. `gemini_api_key` 값 입력
+4. 저장 후 프로그램 재실행
 
-## UI Flow
+## 4. 사용 방법
 
-1. 입력 JAR 파일 또는 폴더 선택
-2. 출력 폴더 선택
-3. 언어 파일 스캔
-4. 입력 언어 / 출력 언어 선택
-5. 번역 시작
-6. 결과 및 로그 확인
+1. 프로그램 실행
+2. “Input File”에서 Minecraft 모드 JAR 또는 폴더 선택
+3. “Output Folder” 선택
+4. “Scan” 클릭
+5. 입력 언어 / 출력 언어 선택
+6. “Start Translation” 클릭
+7. 진행률 확인
+8. 완료 후 결과 JAR 생성
 
-## UI Layout
+---
 
-왼쪽 패널:
+## 5. 주요 기능 설명
 
-- 입력 파일 선택
-- 출력 폴더 선택
-- 스캔
-- 언어 선택
-- 번역 시작 / 정지
-- 진행률
-- 로그 보기
+* JAR 자동 분석: `lang/*.json` 탐색
+* 언어 선택 번역: 원하는 언어로 변환
+* 진행률 표시: 전체 / 개별 모드 상태 확인 가능
+* 로그 창: 번역 과정 상세 확인
+* UI 언어 변경: 한국어 / 영어 지원
 
-오른쪽 패널:
+## 6. 문제 해결
 
-- 모드 목록
+### 프로그램이 실행되지 않는 경우
 
-## Language Handling
+* Java 또는 런타임 환경 부족 여부 확인
+* 관리자 권한으로 실행
 
-- UI 언어는 `ko` / `en`을 지원합니다.
-- UI 언어를 바꾸면 창을 다시 열어 전체 UI를 갱신합니다.
-- 진행률 영역의 `대기 중...`, `전체 진행률`, `현재 JAR 진행률`도 UI 언어에 맞춰 바뀝니다.
+### 번역이 실패하는 경우
 
-## Build
+* API Key 확인
+* 인터넷 연결 상태 확인
 
-### Windows
+### 결과가 생성되지 않는 경우
 
-```bat
-release/build/build_windows.bat
-```
+* 출력 폴더 권한 확인
+* JAR 파일 손상 여부 확인
 
-Output:
+## 7. 참고 사항
 
-```text
-release/build/dist/MMTG/
-```
-
-### macOS
-
-```sh
-chmod +x release/build/build_macos.sh
-cd release/build
-./build_macos.sh
-```
-
-Output:
-
-```text
-release/build/dist/MMTG.app
-```
-
-빌드 스크립트는 마지막에 `build/` 폴더를 삭제합니다.
-
-## Linux Packages
-
-GitHub Actions 릴리즈는 Linux 배포판별로 전용 패키지를 만듭니다.
-
-- Ubuntu: `.deb`
-- Debian: `.deb`
-- Fedora: `.rpm`
-- Arch: `.pkg.tar.zst`
-
-각 패키지는 실행 파일과 런처 스크립트를 포함합니다.
-패키징 스크립트는 `release/build/package_fedora.sh`와 `release/build/package_arch.sh`에 있습니다.
-
-## Project Structure
-
-```text
-main.py
-modules/
-  config.py
-  find_json.py
-  gemini_translator.py
-  i18n.py
-  unzip_jar.py
-  zip_jar.py
-release/
-  build/
-    build_windows.bat
-    build_macos.sh
-    package_fedora.sh
-    package_arch.sh
-    Minecraft Mod Translator Gemini.spec
-```
-
-## Notes
-
-- 번역 로직은 `main.py`와 `modules/`가 담당합니다.
-- GUI는 입력 선택, 진행률, 결과 표시만 담당합니다.
-- 로그는 GUI 창에 표시되며, 수동 저장이 가능합니다.
+* 원본 JAR 파일은 수정되지 않으며 복사본이 생성됩니다.
+* 번역 품질은 Gemini API 응답에 의존합니다.
+* 대용량 모드는 시간이 오래 걸릴 수 있습니다.
