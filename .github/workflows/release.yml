@@ -53,10 +53,12 @@ jobs:
       matrix:
         include:
           - arch: arm64
+            runner: macos-26
             python_arch: arm64
           - arch: x86_64
+            runner: macos-13
             python_arch: x64
-    runs-on: macos-26
+    runs-on: ${{ matrix.runner }}
     defaults:
       run:
         working-directory: release/build
