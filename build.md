@@ -39,12 +39,12 @@ release/build/dist/MMTG.app
 Package:
 
 ```text
-zip the .app bundle
+macOS arm64 and x86_64 are built in separate jobs and zipped separately.
 ```
 
 Notes:
 
-- Build on macOS only.
+- Build arm64 and x86_64 separately on macOS runners.
 - Open the `.app` once before packaging if Gatekeeper/quarantine attributes appear during local testing.
 - Build scripts live under `release/build/`.
 

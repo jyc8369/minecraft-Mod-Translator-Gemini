@@ -5,7 +5,9 @@
 GitHub Releases에서 운영체제에 맞는 파일을 다운로드합니다.
 
 - Windows: `~windows.zip`
-- macOS: `~macos.zip`
+- macOS:
+  - `~macos-arm64.zip`
+  - `~macos-x86_64.zip`
 - Linux:
   - Ubuntu `~ubuntu.deb`
   - Debian: `~debian.deb`
