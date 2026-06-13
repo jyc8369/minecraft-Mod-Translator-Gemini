@@ -53,10 +53,10 @@ jobs:
       matrix:
         include:
           - arch: arm64
-            runner: macos-26
+            python_arch: arm64
           - arch: x86_64
-            runner: macos-13
-    runs-on: ${{ matrix.runner }}
+            python_arch: x64
+    runs-on: macos-26
     defaults:
       run:
         working-directory: release/build
@@ -64,19 +64,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Verify runner architecture
-        run: |
-          actual_arch="$(uname -m)"
-          if [ "$actual_arch" != "${{ matrix.arch }}" ]; then
-            echo "Expected ${{ matrix.arch }}, got $actual_arch" >&2
-            exit 1
-          fi
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          architecture: ${{ matrix.python_arch }}
           cache: "pip"
+
+      - name: Verify Python architecture
+        run: |
+          actual_arch="$(python3 -c 'import platform; print(platform.machine())')"
+          if [ "$actual_arch" != "${{ matrix.arch }}" ]; then
+            echo "Expected Python arch ${{ matrix.arch }}, got $actual_arch" >&2
+            exit 1
+          fi
 
       - name: Install dependencies
         run: |
