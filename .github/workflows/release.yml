@@ -85,10 +85,56 @@ jobs:
           name: macos-release
           path: release/artifacts/macos/MMTG-macos.zip
 
+  build-linux:
+    runs-on: ubuntu-latest
+    needs:
+      - build-macos
+    strategy:
+      fail-fast: false
+      matrix:
+        distro:
+          - ubuntu
+          - debian
+          - fedora
+    defaults:
+      run:
+        working-directory: release/build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r ../../requirements.txt
+          pip install pyinstaller
+
+      - name: Build Linux package
+        run: |
+          python3 -m PyInstaller --noconfirm --clean "Minecraft Mod Translator Gemini.spec"
+
+      - name: Package Linux artifact
+        run: |
+          out_dir="../artifacts/linux/${{ matrix.distro }}"
+          rm -rf "$out_dir"
+          mkdir -p "$out_dir"
+          tar -czf "$out_dir/MMTG-${{ matrix.distro }}.tar.gz" -C dist MMTG
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-${{ matrix.distro }}-release
+          path: release/artifacts/linux/${{ matrix.distro }}/MMTG-${{ matrix.distro }}.tar.gz
+
   publish-release:
     runs-on: ubuntu-latest
     needs:
       - build-macos
+      - build-linux
     steps:
       - name: Download Windows artifact
         uses: actions/download-artifact@v4
@@ -102,9 +148,30 @@ jobs:
           name: macos-release
           path: release/artifacts/macos
 
+      - name: Download Linux Ubuntu artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-ubuntu-release
+          path: release/artifacts/linux/ubuntu
+
+      - name: Download Linux Debian artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-debian-release
+          path: release/artifacts/linux/debian
+
+      - name: Download Linux Fedora artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-fedora-release
+          path: release/artifacts/linux/fedora
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             release/artifacts/windows/MMTG-windows.zip
             release/artifacts/macos/MMTG-macos.zip
+            release/artifacts/linux/ubuntu/MMTG-ubuntu.tar.gz
+            release/artifacts/linux/debian/MMTG-debian.tar.gz
+            release/artifacts/linux/fedora/MMTG-fedora.tar.gz
