@@ -119,20 +119,20 @@ jobs:
           mkdir -p "$pkgroot/DEBIAN" "$pkgroot/opt/MMTG" "$pkgroot/usr/bin" "$out_dir"
           cp -R dist/MMTG/* "$pkgroot/opt/MMTG/"
           cat > "$pkgroot/usr/bin/mmtg" <<'EOF'
-#!/bin/sh
-exec /opt/MMTG/MMTG "$@"
-EOF
+          #!/bin/sh
+          exec /opt/MMTG/MMTG "$@"
+          EOF
           chmod 755 "$pkgroot/usr/bin/mmtg"
           cat > "$pkgroot/DEBIAN/control" <<EOF
-Package: mmtg
-Version: ${version}
-Section: utils
-Priority: optional
-Architecture: amd64
-Maintainer: Codex
-Depends: python3
-Description: Minecraft Mod Translator Gemini
-EOF
+          Package: mmtg
+          Version: ${version}
+          Section: utils
+          Priority: optional
+          Architecture: amd64
+          Maintainer: Codex
+          Depends: python3
+          Description: Minecraft Mod Translator Gemini
+          EOF
           dpkg-deb --build "$pkgroot" "$out_dir/MMTG-ubuntu.deb"
 
       - name: Upload Ubuntu artifact
@@ -175,20 +175,20 @@ EOF
           mkdir -p "$pkgroot/DEBIAN" "$pkgroot/opt/MMTG" "$pkgroot/usr/bin" "$out_dir"
           cp -R dist/MMTG/* "$pkgroot/opt/MMTG/"
           cat > "$pkgroot/usr/bin/mmtg" <<'EOF'
-#!/bin/sh
-exec /opt/MMTG/MMTG "$@"
-EOF
+          #!/bin/sh
+          exec /opt/MMTG/MMTG "$@"
+          EOF
           chmod 755 "$pkgroot/usr/bin/mmtg"
           cat > "$pkgroot/DEBIAN/control" <<EOF
-Package: mmtg
-Version: ${version}
-Section: utils
-Priority: optional
-Architecture: amd64
-Maintainer: Codex
-Depends: python3
-Description: Minecraft Mod Translator Gemini
-EOF
+          Package: mmtg
+          Version: ${version}
+          Section: utils
+          Priority: optional
+          Architecture: amd64
+          Maintainer: Codex
+          Depends: python3
+          Description: Minecraft Mod Translator Gemini
+          EOF
           dpkg-deb --build "$pkgroot" "$out_dir/MMTG-debian.deb"
 
       - name: Upload Debian artifact
@@ -233,39 +233,39 @@ EOF
           mkdir -p "$rpmdir"/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS} "$out_dir"
           tar -czf "$rpmdir/SOURCES/MMTG-${version}.tar.gz" -C dist MMTG
           cat > "$rpmdir/SPECS/mmtg.spec" <<EOF
-Name: mmtg
-Version: ${version}
-Release: 1%{?dist}
-Summary: Minecraft Mod Translator Gemini
-License: MIT
-URL: https://github.com/${{ github.repository }}
-BuildArch: x86_64
-Source0: MMTG-${version}.tar.gz
-Provides: mmtg
+          Name: mmtg
+          Version: ${version}
+          Release: 1%{?dist}
+          Summary: Minecraft Mod Translator Gemini
+          License: MIT
+          URL: https://github.com/${{ github.repository }}
+          BuildArch: x86_64
+          Source0: MMTG-${version}.tar.gz
+          Provides: mmtg
 
-%description
-Minecraft Mod Translator Gemini
+          %description
+          Minecraft Mod Translator Gemini
 
-%prep
-%setup -q -n MMTG
+          %prep
+          %setup -q -n MMTG
 
-%build
+          %build
 
-%install
-rm -rf %{buildroot}
-mkdir -p %{buildroot}/opt/MMTG
-cp -a * %{buildroot}/opt/MMTG/
-mkdir -p %{buildroot}/usr/bin
-cat > %{buildroot}/usr/bin/mmtg <<'SH'
-#!/bin/sh
-exec /opt/MMTG/MMTG "$@"
-SH
-chmod 755 %{buildroot}/usr/bin/mmtg
+          %install
+          rm -rf %{buildroot}
+          mkdir -p %{buildroot}/opt/MMTG
+          cp -a * %{buildroot}/opt/MMTG/
+          mkdir -p %{buildroot}/usr/bin
+          cat > %{buildroot}/usr/bin/mmtg <<'SH'
+          #!/bin/sh
+          exec /opt/MMTG/MMTG "$@"
+          SH
+          chmod 755 %{buildroot}/usr/bin/mmtg
 
-%files
-/opt/MMTG
-/usr/bin/mmtg
-EOF
+          %files
+          /opt/MMTG
+          /usr/bin/mmtg
+          EOF
           rpmbuild --define "_topdir $rpmdir" -bb "$rpmdir/SPECS/mmtg.spec"
           cp "$rpmdir/RPMS/x86_64/"*.rpm "$out_dir/MMTG-fedora.rpm"
 
@@ -307,26 +307,26 @@ EOF
           mkdir -p "$srcdir" "$out_dir"
           tar -czf "$srcdir/MMTG-${version}.tar.gz" -C dist MMTG
           cat > "$srcdir/PKGBUILD" <<EOF
-pkgname=mmtg
-pkgver=${version}
-pkgrel=1
-pkgdesc="Minecraft Mod Translator Gemini"
-arch=('x86_64')
-license=('MIT')
-depends=('python')
-source=("MMTG-${version}.tar.gz")
-sha256sums=('SKIP')
-package() {
-  install -dm755 "\${pkgdir}/opt/MMTG"
-  cp -a "\${srcdir}/MMTG" "\${pkgdir}/opt/MMTG/"
-  install -dm755 "\${pkgdir}/usr/bin"
-  cat > "\${pkgdir}/usr/bin/mmtg" <<'SH'
-#!/bin/sh
-exec /opt/MMTG/MMTG "$@"
-SH
-  chmod 755 "\${pkgdir}/usr/bin/mmtg"
-}
-EOF
+          pkgname=mmtg
+          pkgver=${version}
+          pkgrel=1
+          pkgdesc="Minecraft Mod Translator Gemini"
+          arch=('x86_64')
+          license=('MIT')
+          depends=('python')
+          source=("MMTG-${version}.tar.gz")
+          sha256sums=('SKIP')
+          package() {
+            install -dm755 "\${pkgdir}/opt/MMTG"
+            cp -a "\${srcdir}/MMTG" "\${pkgdir}/opt/MMTG/"
+            install -dm755 "\${pkgdir}/usr/bin"
+            cat > "\${pkgdir}/usr/bin/mmtg" <<'SH'
+            #!/bin/sh
+            exec /opt/MMTG/MMTG "$@"
+            SH
+            chmod 755 "\${pkgdir}/usr/bin/mmtg"
+          }
+          EOF
           cd "$srcdir"
           makepkg --noconfirm --syncdeps --cleanbuild
           cp *.pkg.tar.zst "$out_dir/MMTG-arch.pkg.tar.zst"
