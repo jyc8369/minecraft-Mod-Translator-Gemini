@@ -38,13 +38,13 @@ jobs:
           $outDir = "../artifacts/windows"
           if (Test-Path $outDir) { Remove-Item -Recurse -Force $outDir }
           New-Item -ItemType Directory -Path $outDir -Force | Out-Null
-          Compress-Archive -Path "dist\Minecraft-Mod-Translator-Gemini\*" -DestinationPath "$outDir\Minecraft-Mod-Translator-Gemini-windows.zip"
+          Compress-Archive -Path "dist\MMTG\*" -DestinationPath "$outDir\MMTG-windows.zip"
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-release
-          path: release/artifacts/windows/Minecraft-Mod-Translator-Gemini-windows.zip
+          path: release/artifacts/windows/MMTG-windows.zip
 
   build-macos:
     runs-on: macos-latest
@@ -77,13 +77,13 @@ jobs:
           out_dir="../artifacts/macos"
           rm -rf "$out_dir"
           mkdir -p "$out_dir"
-          ditto -c -k --sequesterRsrc --keepParent "dist/Minecraft Mod Translator Gemini.app" "$out_dir/Minecraft Mod Translator Gemini-macos.zip"
+          ditto -c -k --sequesterRsrc --keepParent "dist/MMTG.app" "$out_dir/MMTG-macos.zip"
 
       - name: Upload macOS artifact
         uses: actions/upload-artifact@v4
         with:
           name: macos-release
-          path: release/artifacts/macos/Minecraft Mod Translator Gemini-macos.zip
+          path: release/artifacts/macos/MMTG-macos.zip
 
   publish-release:
     runs-on: ubuntu-latest
@@ -106,5 +106,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            release/artifacts/windows/Minecraft-Mod-Translator-Gemini-windows.zip
-            release/artifacts/macos/Minecraft Mod Translator Gemini-macos.zip
+            release/artifacts/windows/MMTG-windows.zip
+            release/artifacts/macos/MMTG-macos.zip

@@ -11,7 +11,7 @@ release/build/build_windows.bat
 Output:
 
 ```text
-release/build/dist/Minecraft-Mod-Translator-Gemini/
+release/build/dist/MMTG/
 ```
 
 Package:
@@ -33,7 +33,7 @@ cd release/build
 Output:
 
 ```text
-release/build/dist/Minecraft Mod Translator Gemini.app
+release/build/dist/MMTG.app
 ```
 
 Package:

@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-APP_NAME="Minecraft Mod Translator Gemini"
+APP_NAME="MMTG"
 SPEC_FILE="Minecraft Mod Translator Gemini.spec"
 
 rm -rf dist

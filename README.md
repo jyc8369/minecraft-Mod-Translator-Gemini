@@ -1,4 +1,4 @@
-# Minecraft Mod Translator Gemini
+# Minecraft Mod Translator Gemini ( MMTG )
 
 Minecraft 모드 JAR 안의 `lang/*.json` 파일을 찾아 Gemini로 번역하고, 다시 JAR로 패키징하는 도구입니다.
 
@@ -94,7 +94,7 @@ release/build/build_windows.bat
 Output:
 
 ```text
-release/build/dist/Minecraft-Mod-Translator-Gemini/
+release/build/dist/MMTG/
 ```
 
 ### macOS
@@ -108,7 +108,7 @@ cd release/build
 Output:
 
 ```text
-release/build/dist/Minecraft Mod Translator Gemini.app
+release/build/dist/MMTG.app
 ```
 
 빌드 스크립트는 마지막에 `build/` 폴더를 삭제합니다.

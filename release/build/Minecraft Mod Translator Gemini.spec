@@ -31,7 +31,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name="Minecraft Mod Translator Gemini",
+    name="MMTG",
     console=False,
     disable_windowed_traceback=False,
 )
@@ -39,7 +39,7 @@ exe = EXE(
 if sys.platform == "darwin":
     app = BUNDLE(
         exe,
-        name="Minecraft Mod Translator Gemini.app",
+        name="MMTG.app",
         icon=None,
         bundle_identifier=None,
     )
@@ -51,5 +51,5 @@ else:
         strip=False,
         upx=True,
         upx_exclude=[],
-        name="Minecraft Mod Translator Gemini",
+        name="MMTG",
     )
