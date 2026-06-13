@@ -3,8 +3,8 @@ set -eu
 
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)"
 VERSION="${1#v}"
-OUT_DIR="$(CDPATH= cd -- "$SCRIPT_DIR/../artifacts/linux/fedora" && pwd -P)"
-RPMDIR="$(CDPATH= cd -- "$SCRIPT_DIR/../rpmbuild" && pwd -P)"
+OUT_DIR="$SCRIPT_DIR/../artifacts/linux/fedora"
+RPMDIR="$SCRIPT_DIR/../rpmbuild"
 DIST_DIR="$SCRIPT_DIR/dist/MMTG"
 REPO_URL="${GITHUB_SERVER_URL:-https://github.com}/${GITHUB_REPOSITORY:-jyc8369/minecraft-Mod-Translator-Gemini}"
 

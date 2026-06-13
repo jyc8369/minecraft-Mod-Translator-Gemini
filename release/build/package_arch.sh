@@ -3,8 +3,8 @@ set -eu
 
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)"
 VERSION="${1#v}"
-OUT_DIR="$(CDPATH= cd -- "$SCRIPT_DIR/../artifacts/linux/arch" && pwd -P)"
-PKGDIR="$(CDPATH= cd -- "$SCRIPT_DIR/../archpkg" && pwd -P)"
+OUT_DIR="$SCRIPT_DIR/../artifacts/linux/arch"
+PKGDIR="$SCRIPT_DIR/../archpkg"
 DIST_DIR="$SCRIPT_DIR/dist/MMTG"
 
 if [ ! -d "$DIST_DIR" ]; then
@@ -43,5 +43,5 @@ SH
 EOF
 
 cd "$PKGDIR"
-makepkg --noconfirm --syncdeps --cleanbuild
+makepkg --noconfirm --syncdeps --cleanbuild --nosign
 cp *.pkg.tar.zst "$OUT_DIR/MMTG-arch.pkg.tar.zst"

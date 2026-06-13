@@ -241,20 +241,23 @@ jobs:
       - name: Install dependencies
         working-directory: .
         run: |
+          pacman-key --init
+          pacman-key --populate archlinux
           pacman -Syu --noconfirm python python-pip git
-          pip install -r "$GITHUB_WORKSPACE/requirements.txt"
-          pip install pyinstaller
+          python -m venv "$GITHUB_WORKSPACE/.venv-arch"
+          "$GITHUB_WORKSPACE/.venv-arch/bin/pip" install -r "$GITHUB_WORKSPACE/requirements.txt"
+          "$GITHUB_WORKSPACE/.venv-arch/bin/pip" install pyinstaller
 
       - name: Prepare build user
         working-directory: .
         run: |
           useradd -m builder
-          chown -R builder:builder "$GITHUB_WORKSPACE"
+          chown -R builder:builder "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/.venv-arch"
 
       - name: Build app
         working-directory: .
         run: |
-          su builder -c "cd '$GITHUB_WORKSPACE/release/build' && python3 -m PyInstaller --noconfirm --clean 'Minecraft Mod Translator Gemini.spec'"
+          su builder -c "cd '$GITHUB_WORKSPACE/release/build' && '$GITHUB_WORKSPACE/.venv-arch/bin/python' -m PyInstaller --noconfirm --clean 'Minecraft Mod Translator Gemini.spec'"
 
       - name: Package Arch package
         working-directory: .
