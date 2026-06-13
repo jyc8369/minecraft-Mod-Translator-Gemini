@@ -5,7 +5,7 @@ from pathlib import Path
 from PyInstaller.utils.hooks import collect_submodules
 
 
-project_root = Path(__file__).resolve().parent
+project_root = Path.cwd()
 hiddenimports = []
 hiddenimports += collect_submodules("customtkinter")
 hiddenimports += collect_submodules("google")
@@ -44,4 +44,3 @@ coll = COLLECT(
     upx_exclude=[],
     name="Minecraft Mod Translator Gemini",
 )
-
