@@ -95,7 +95,7 @@ jobs:
           path: release/artifacts/macos/MMTG-macos-arm64.zip
 
   build-macos-x86_64:
-    runs-on: macos-13
+    runs-on: macos-15-intel
     defaults:
       run:
         working-directory: release/build
