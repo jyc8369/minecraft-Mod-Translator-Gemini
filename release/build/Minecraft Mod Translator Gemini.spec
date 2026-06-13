@@ -1,5 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import sys
 from pathlib import Path
 
 from PyInstaller.utils.hooks import collect_submodules
@@ -35,12 +36,20 @@ exe = EXE(
     disable_windowed_traceback=False,
 )
 
-coll = COLLECT(
-    exe,
-    a.binaries,
-    a.datas,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    name="Minecraft Mod Translator Gemini",
-)
+if sys.platform == "darwin":
+    app = BUNDLE(
+        exe,
+        name="Minecraft Mod Translator Gemini.app",
+        icon=None,
+        bundle_identifier=None,
+    )
+else:
+    coll = COLLECT(
+        exe,
+        a.binaries,
+        a.datas,
+        strip=False,
+        upx=True,
+        upx_exclude=[],
+        name="Minecraft Mod Translator Gemini",
+    )

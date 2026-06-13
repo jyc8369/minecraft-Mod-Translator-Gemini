@@ -5,13 +5,13 @@
 Build:
 
 ```bat
-build_windows.bat
+release/build/build_windows.bat
 ```
 
 Output:
 
 ```text
-dist/Minecraft-Mod-Translator-Gemini/
+release/build/dist/Minecraft-Mod-Translator-Gemini/
 ```
 
 Package:
@@ -25,14 +25,15 @@ zip the dist folder
 Build:
 
 ```sh
-chmod +x build_macos.sh
+chmod +x release/build/build_macos.sh
+cd release/build
 ./build_macos.sh
 ```
 
 Output:
 
 ```text
-dist/Minecraft Mod Translator Gemini.app
+release/build/dist/Minecraft Mod Translator Gemini.app
 ```
 
 Package:
@@ -45,6 +46,7 @@ Notes:
 
 - Build on macOS only.
 - Open the `.app` once before packaging if Gatekeeper/quarantine attributes appear during local testing.
+- Build scripts live under `release/build/`.
 
 ## Notes
 

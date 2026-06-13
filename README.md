@@ -88,26 +88,27 @@ python main.py
 ### Windows
 
 ```bat
-build_windows.bat
+release/build/build_windows.bat
 ```
 
 Output:
 
 ```text
-dist/Minecraft-Mod-Translator-Gemini/
+release/build/dist/Minecraft-Mod-Translator-Gemini/
 ```
 
 ### macOS
 
 ```sh
-chmod +x build_macos.sh
+chmod +x release/build/build_macos.sh
+cd release/build
 ./build_macos.sh
 ```
 
 Output:
 
 ```text
-dist/Minecraft Mod Translator Gemini.app
+release/build/dist/Minecraft Mod Translator Gemini.app
 ```
 
 빌드 스크립트는 마지막에 `build/` 폴더를 삭제합니다.
@@ -123,9 +124,11 @@ modules/
   i18n.py
   unzip_jar.py
   zip_jar.py
-build_windows.bat
-build_macos.sh
-Minecraft Mod Translator Gemini.spec
+release/
+  build/
+    build_windows.bat
+    build_macos.sh
+    Minecraft Mod Translator Gemini.spec
 ```
 
 ## Notes
@@ -133,4 +136,3 @@ Minecraft Mod Translator Gemini.spec
 - 번역 로직은 `main.py`와 `modules/`가 담당합니다.
 - GUI는 입력 선택, 진행률, 결과 표시만 담당합니다.
 - 로그는 GUI 창에 표시되며, 수동 저장이 가능합니다.
-

@@ -6,7 +6,6 @@ __pycache__/
 *.log
 
 # Ignore build artifacts
-build/
 dist/
 
 # Ignore testmod directory
