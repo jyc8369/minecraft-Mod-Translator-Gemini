@@ -1,46 +1,136 @@
-# Minecraft Mod Translator with Google Gemini AI
+# Minecraft Mod Translator Gemini
 
-Minecraft Forge 모드의 언어 파일을 Google Gemini AI로 번역.
+Minecraft 모드 JAR 안의 `lang/*.json` 파일을 찾아 Gemini로 번역하고, 다시 JAR로 패키징하는 도구입니다.
 
-## GitHub에서 클론
-```bash
-git clone https://github.com/jyc8369/minecraft-Mod-Translator-Gemini.git
-cd minecraft-Mod-Translator-Gemini
-```
+## Features
+
+- JAR 파일 또는 폴더 선택
+- 입력 언어 / 출력 언어 선택
+- 언어 파일 스캔
+- 번역 진행률 표시
+- 모드별 상태 표시
+- 로그 창 분리 표시
+- `config.json` 자동 생성
+- UI 언어 전환: `ko`, `en`
 
 ## Requirements
-- Python 3.8+
-- `pip install -r requirements.txt`
 
-## Usage
-1. `mod` 폴더에 JAR 파일 넣기 (또는 GUI에서 입력 폴더 선택).
-2. GUI 실행: `python main.py`
-3. API 키 입력 및 저장.
-4. 입력 폴더와 출력 폴더 선택.
-5. 번역 시작.
-6. 번역된 JAR 파일이 출력 폴더에 생성됨.
+- Python 3.12+
+- `customtkinter`
+- `google-genai`
 
-## 기능
-- API 키 저장 (config.json)
-- 입력/출력 폴더 선택 가능
-- 실시간 진행 바 및 로그 표시
-- exe 컴파일 지원 (PyInstaller 사용)
+## Install
 
-## exe 다운로드
-GitHub Releases에서 압축된 exe 파일을 다운로드할 수 있습니다:
-- 파일명: `Minecraft_Mod_Translator_v1.0.zip`
-- 크기: 약 105MB
-- 압축 해제 후 `main.exe` 실행
-
-## exe 컴파일 (개발자용)
-PyInstaller로 exe 파일 생성:
+```bash
+pip install -r requirements.txt
 ```
-pip install pyinstaller
-pyinstaller --onefile --windowed main.py
-```
-생성된 exe 파일은 `dist` 폴더에 있음.
 
-## exe 사용법
-- `main.exe`를 실행하여 프로그램 시작
-- Python 환경이 필요 없음
-- 모든 의존성이 exe에 포함됨
+## Run
+
+```bash
+python main.py
+```
+
+## Configuration
+
+프로그램은 실행 시 `config.json`을 사용합니다.
+
+예시:
+
+```json
+{
+  "gemini_api_key": "YOUR_API_KEY",
+  "window_width": 400,
+  "window_height": 600,
+  "ui_language": "ko"
+}
+```
+
+- `gemini_api_key`: Gemini API 키
+- `window_width`, `window_height`: 창 크기 저장값
+- `ui_language`: `ko` 또는 `en`
+
+`config.json`이 없으면 기본 파일이 자동 생성됩니다.
+
+## UI Flow
+
+1. 입력 JAR 파일 또는 폴더 선택
+2. 출력 폴더 선택
+3. 언어 파일 스캔
+4. 입력 언어 / 출력 언어 선택
+5. 번역 시작
+6. 결과 및 로그 확인
+
+## UI Layout
+
+왼쪽 패널:
+
+- 입력 파일 선택
+- 출력 폴더 선택
+- 스캔
+- 언어 선택
+- 번역 시작 / 정지
+- 진행률
+- 로그 보기
+
+오른쪽 패널:
+
+- 모드 목록
+
+## Language Handling
+
+- UI 언어는 `ko` / `en`을 지원합니다.
+- UI 언어를 바꾸면 창을 다시 열어 전체 UI를 갱신합니다.
+- 진행률 영역의 `대기 중...`, `전체 진행률`, `현재 JAR 진행률`도 UI 언어에 맞춰 바뀝니다.
+
+## Build
+
+### Windows
+
+```bat
+build_windows.bat
+```
+
+Output:
+
+```text
+dist/Minecraft-Mod-Translator-Gemini/
+```
+
+### macOS
+
+```sh
+chmod +x build_macos.sh
+./build_macos.sh
+```
+
+Output:
+
+```text
+dist/Minecraft Mod Translator Gemini.app
+```
+
+빌드 스크립트는 마지막에 `build/` 폴더를 삭제합니다.
+
+## Project Structure
+
+```text
+main.py
+modules/
+  config.py
+  find_json.py
+  gemini_translator.py
+  i18n.py
+  unzip_jar.py
+  zip_jar.py
+build_windows.bat
+build_macos.sh
+Minecraft Mod Translator Gemini.spec
+```
+
+## Notes
+
+- 번역 로직은 `main.py`와 `modules/`가 담당합니다.
+- GUI는 입력 선택, 진행률, 결과 표시만 담당합니다.
+- 로그는 GUI 창에 표시되며, 수동 저장이 가능합니다.
+

@@ -1,8 +1,18 @@
-venv/
+# Ignore virtual environment and cache files
+.venv/
 __pycache__/
+
+# Ignore log files
 *.log
-temp/
-translated/
+
+# Ignore build artifacts
 build/
 dist/
+
+# Ignore testmod directory
+testmod/
+work/
+
+# Ignore config file containing API key
 config.json
+.env
