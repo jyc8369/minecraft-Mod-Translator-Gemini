@@ -113,6 +113,17 @@ release/build/dist/MMTG.app
 
 빌드 스크립트는 마지막에 `build/` 폴더를 삭제합니다.
 
+## Linux Packages
+
+GitHub Actions 릴리즈는 Linux 배포판별로 전용 패키지를 만듭니다.
+
+- Ubuntu: `.deb`
+- Debian: `.deb`
+- Fedora: `.rpm`
+- Arch: `.pkg.tar.zst`
+
+각 패키지는 실행 파일과 런처 스크립트를 포함합니다.
+
 ## Project Structure
 
 ```text

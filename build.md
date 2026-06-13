@@ -48,6 +48,15 @@ Notes:
 - Open the `.app` once before packaging if Gatekeeper/quarantine attributes appear during local testing.
 - Build scripts live under `release/build/`.
 
+## Linux Packages
+
+- Ubuntu: `.deb`
+- Debian: `.deb`
+- Fedora: `.rpm`
+- Arch: `.pkg.tar.zst`
+
+Linux jobs are split per distribution in the release workflow.
+
 ## Notes
 
 - Build each OS on that OS.
