@@ -44,5 +44,10 @@ EOF
 (
   cd "$PKGDIR"
   makepkg --noconfirm --syncdeps --cleanbuild --nosign
-  cp *.pkg.tar.zst "$OUT_DIR/MMTG-arch.pkg.tar.zst"
+  pkgfile="$(find "$PKGDIR" -maxdepth 1 -type f -name '*.pkg.tar.zst' ! -name '*debug*' | sort | head -n 1)"
+  if [ -z "$pkgfile" ]; then
+    echo "built package not found in $PKGDIR" >&2
+    exit 1
+  fi
+  install -Dm644 "$pkgfile" "$OUT_DIR/MMTG-arch.pkg.tar.zst"
 )

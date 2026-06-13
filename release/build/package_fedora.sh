@@ -62,4 +62,9 @@ rpmbuild \
   --define "_specdir $RPMDIR/SPECS" \
   --define "_srcrpmdir $RPMDIR/SRPMS" \
   -bb "$RPMDIR/SPECS/mmtg.spec"
-cp "$RPMDIR/RPMS/x86_64/"*.rpm "$OUT_DIR/MMTG-fedora.rpm"
+rpmfile="$(find "$RPMDIR/RPMS" -type f -name '*.rpm' | sort | head -n 1)"
+if [ -z "$rpmfile" ]; then
+  echo "built rpm not found in $RPMDIR/RPMS" >&2
+  exit 1
+fi
+install -Dm644 "$rpmfile" "$OUT_DIR/MMTG-fedora.rpm"
