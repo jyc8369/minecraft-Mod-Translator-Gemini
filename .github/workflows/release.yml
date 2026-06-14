@@ -448,10 +448,10 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            release/artifacts/windows/MMTG-windows.zip
-            release/artifacts/macos/MMTG-macos-arm64.zip
-            release/artifacts/macos/MMTG-macos-x86_64.zip
-            release/artifacts/linux/ubuntu/MMTG-ubuntu.deb
-            release/artifacts/linux/debian/MMTG-debian.deb
-            release/artifacts/linux/fedora/MMTG-fedora.rpm
-            release/artifacts/linux/arch/MMTG-arch.pkg.tar.zst
+            release/artifacts/windows/MMTG-*-windows.zip
+            release/artifacts/macos/MMTG-*-macos-arm64.zip
+            release/artifacts/macos/MMTG-*-macos-x86_64.zip
+            release/artifacts/linux/ubuntu/MMTG-*-ubuntu.deb
+            release/artifacts/linux/debian/MMTG-*-debian.deb
+            release/artifacts/linux/fedora/MMTG-*-fedora.rpm
+            release/artifacts/linux/arch/MMTG-*-arch.pkg.tar.zst

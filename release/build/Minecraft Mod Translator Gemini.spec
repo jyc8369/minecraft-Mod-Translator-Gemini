@@ -32,6 +32,7 @@ exe = EXE(
     [],
     exclude_binaries=True,
     name="MMTG",
+    icon=str(project_root / "release" / "build" / "icon.ico"),
     console=False,
     disable_windowed_traceback=False,
 )
@@ -50,6 +51,6 @@ if sys.platform == "darwin":
     app = BUNDLE(
         coll,
         name="MMTG.app",
-        icon=None,
+        icon=str(project_root / "release" / "build" / "icon.icns"),
         bundle_identifier=None,
     )
