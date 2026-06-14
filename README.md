@@ -62,8 +62,9 @@ mmtg
 
 파일 위치:
 
-* Windows: 프로그램 폴더 내부
-* Linux / macOS: 실행 폴더 또는 사용자 홈 기준
+* Windows: `%APPDATA%\\MMTG\\config.json`
+* macOS: `~/Library/Application Support/MMTG/config.json`
+* Linux: `~/.config/MMTG/config.json`
 
 예시:
 

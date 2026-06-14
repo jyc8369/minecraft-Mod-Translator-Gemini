@@ -11,13 +11,14 @@ import customtkinter as ctk
 import tkinter as tk
 from tkinter import filedialog
 
-from modules.config import read_config, write_config
+from modules.config import get_config_path, read_config, write_config
 from modules.find_json import find_json
 from modules.i18n import DEFAULT_UI_LANG, SUPPORTED_UI_LANGS, normalize_ui_lang, tr
 from modules.unzip_jar import unzip_jar
 from modules.zip_jar import zip_jar
 
 PROJECT_ROOT = Path(__file__).resolve().parent
+CONFIG_PATH = get_config_path()
 WORK_ROOT = PROJECT_ROOT / "work"
 DEFAULT_INPUT_LANG = "en_us"
 DEFAULT_OUTPUT_LANG = "ko_kr"
@@ -632,7 +633,7 @@ class AppController:
         self._restart_requested = False
 
     def _load_settings(self) -> dict:
-        config = read_config(PROJECT_ROOT)
+        config = read_config(CONFIG_PATH)
         return {
             "window_width": int(config.get("window_width", 400)),
             "window_height": int(config.get("window_height", 600)),
@@ -641,9 +642,9 @@ class AppController:
 
     def _save_settings(self) -> None:
         try:
-            config = read_config(PROJECT_ROOT)
+            config = read_config(CONFIG_PATH)
             config.update(self._settings)
-            write_config(PROJECT_ROOT, config)
+            write_config(CONFIG_PATH, config)
         except OSError as exc:
             logging.error("설정 저장 실패: %s", exc)
 
@@ -680,7 +681,7 @@ class AppController:
         self._stop_event.clear()
         logger = logging.getLogger(__name__)
 
-        config = read_config(PROJECT_ROOT)
+        config = read_config(CONFIG_PATH)
         api_key = config.get("gemini_api_key", "").strip()
         if not api_key:
             logger.error("번역 시작 불가: config.json의 gemini_api_key가 비어 있습니다.")
