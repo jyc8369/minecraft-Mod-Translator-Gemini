@@ -1,34 +1,34 @@
 # Minecraft Mod Translator Gemini (MMTG) - User Guide (No Build Required)
 
-## 1. 다운로드
+## 1. Download
 
-GitHub Releases에서 운영체제에 맞는 파일을 다운로드합니다.
+Download the appropriate file for your operating system from GitHub Releases.
 
 - Windows: `~windows.zip`
 - macOS:
   - `~macos-arm64.zip`
   - `~macos-x86_64.zip`
 - Linux:
-  - Ubuntu `~ubuntu.deb`
+  - Ubuntu: `~ubuntu.deb`
   - Debian: `~debian.deb`
   - Fedora: `~fedora.rpm`
   - Arch: `arch.pkg.tar.zst`
 
-## 2. 설치 및 실행
+## 2. Installation and Execution
 
 ### Windows
-1. 다운로드한 파일 압축 해제
-2. `MMTG.exe` 실행
+1. Extract the downloaded file.
+2. Run `MMTG.exe`.
 
-보안 경고가 뜨면 "추가 정보 → 실행" 선택
+If a security warning appears, select "More info → Run anyway".
 
 ### macOS
-권장 MacOS 15+
-1. 다운로드한 파일 압축 해제
-2. `.app` 파일을 Applications 폴더로 이동
-3. 실행
-4. 실행이 차단될 경우:
-   - 시스템 설정 → 보안 및 개인정보 보호 → 허용
+Recommended macOS 15+
+1. Extract the downloaded file.
+2. Move the `.app` file to the Applications folder.
+3. Run the application.
+4. If execution is blocked:
+   - System Settings → Privacy & Security → Open Anyway.
 
 ### Linux (Ubuntu / Debian / Fedora / Arch)
 
@@ -36,94 +36,86 @@ GitHub Releases에서 운영체제에 맞는 파일을 다운로드합니다.
 ```bash
 sudo dpkg -i mmtg.deb
 sudo apt-get install -f
-````
+```
 
 #### Fedora
-
 ```bash
 sudo dnf install mmtg.rpm
 ```
 
 #### Arch
-
 ```bash
 sudo pacman -U mmtg.pkg.tar.zst
 ```
 
-설치 후 실행:
-
+Run after installation:
 ```bash
 mmtg
 ```
 
-## 3. API 설정 (필수)
+## 3. API Configuration (Required)
 
-처음 실행하면 `config.json` 파일이 자동 생성됩니다.
+A `config.json` file is automatically generated upon the first run.
 
-파일 위치:
-
-* Windows: `%APPDATA%\\MMTG\\config.json`
+File Locations:
+* Windows: `%APPDATA%\MMTG\config.json`
 * macOS: `~/Library/Application Support/MMTG/config.json`
 * Linux: `~/.config/MMTG/config.json`
 
-예시:
-
+Example:
 ```json
 {
   "gemini_api_key": "YOUR_API_KEY",
   "window_width": 400,
   "window_height": 600,
-  "ui_language": "ko"
+  "ui_language": "en"
 }
 ```
 
-### 설정 방법
+### How to Configure
 
-1. Google Gemini API Key 발급
-2. `config.json` 열기
-3. `gemini_api_key` 값 입력
-4. 저장 후 프로그램 재실행
+1. Get a Google Gemini API Key.
+2. Open `config.json`.
+3. Enter your key in the `gemini_api_key` field.
+4. Save the file and restart the program.
 
-## 4. 사용 방법
+## 4. How to Use
 
-1. 프로그램 실행
-2. “Input File”에서 Minecraft 모드 JAR 또는 폴더 선택
-3. “Output Folder” 선택
-4. “Scan” 클릭
-5. 입력 언어 / 출력 언어 선택
-6. “Start Translation” 클릭
-7. 진행률 확인
-8. 완료 후 결과 JAR 생성
+1. Run the program.
+2. Select a Minecraft mod JAR or folder in "Input File".
+3. Select an "Output Folder".
+4. Click "Scan".
+5. Choose the input and output languages.
+6. Click "Start Translation".
+7. Monitor progress.
+8. A translated JAR will be generated upon completion.
 
 ---
 
-## 5. 주요 기능 설명
+## 5. Key Features
 
-* JAR 자동 분석: `lang/*.json` 탐색
-* 언어 선택 번역: 원하는 언어로 변환
-* 진행률 표시: 전체 / 개별 모드 상태 확인 가능
-* 로그 창: 번역 과정 상세 확인
-* UI 언어 변경: 한국어 / 영어 지원
+* Automatic JAR Analysis: Scans for `lang/*.json`.
+* Selective Language Translation: Convert to your desired language.
+* Progress Bar: Check overall and individual mod status.
+* Log Window: Detailed view of the translation process.
+* Multilingual UI: Supports Korean and English.
 
-## 6. 문제 해결
+## 6. Troubleshooting
 
-### 프로그램이 실행되지 않는 경우
+### Program fails to run
+* Check for missing Java or runtime environment.
+* Try running as an administrator.
 
-* Java 또는 런타임 환경 부족 여부 확인
-* 관리자 권한으로 실행
+### Translation fails
+* Verify your API Key.
+* Check your internet connection.
 
-### 번역이 실패하는 경우
+### Result is not generated
+* Check output folder permissions.
+* Ensure the JAR file is not corrupted.
 
-* API Key 확인
-* 인터넷 연결 상태 확인
+## 7. Notes
 
-### 결과가 생성되지 않는 경우
-
-* 출력 폴더 권한 확인
-* JAR 파일 손상 여부 확인
-
-## 7. 참고 사항
-
-* 원본 JAR 파일은 수정되지 않으며 복사본이 생성됩니다.
-* 번역 품질은 Gemini API 응답에 의존합니다.
-* 대용량 모드는 시간이 오래 걸릴 수 있습니다.
+* The original JAR file is not modified; a copy is created.
+* Translation quality depends on the Gemini API response.
+* Large mods may take a significant amount of time.
