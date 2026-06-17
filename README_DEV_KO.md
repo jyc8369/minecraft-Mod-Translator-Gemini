@@ -1,5 +1,7 @@
 # Minecraft Mod Translator Gemini (MMTG) - 개발자 문서
 
+[English](README_DEV.md) | [한국어](README_DEV_KO.md)
+
 Minecraft 모드 JAR 파일 내부의 언어 파일(`lang/*.json`)을 탐색하고, Google Gemini API로 번역한 뒤 다시 JAR로 패키징하는 도구입니다.
 
 ## 1. 기술 스택
